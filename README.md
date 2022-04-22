@@ -19,7 +19,7 @@ Solution Analysis
 =================
 ### Libraries
 Project **doesn't use any foreign libraries for runtime**. But will be good idea to use:
-* spring-shell - for CLI suggestions and validations
+* spring-shell - for CLI autocomplete, suggestions and validations
 * spring - for DI, if the application will have huge amount of services
 
 ### Improvements
