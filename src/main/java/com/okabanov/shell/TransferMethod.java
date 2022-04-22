@@ -52,14 +52,13 @@ public class TransferMethod extends ShellMethod {
 
         int transferredAmount = 0;
         if (debtFrom != null) { // Current user debtor
-            debtService.increaseDebt(targetUserLogin, currentUserLogin, amount);
+            debtService.increaseDebt(currentUserLogin, targetUserLogin, amount);
         } else if(debtTo != null) {  // Target user debtor
             if (debtTo.getAmount() <= amount) {
-                int decreaseAmount = debtService
-                        .decreaseDebtAndReturnDecreasedAmount(currentUserLogin, targetUserLogin, amount);
+                debtService.decreaseDebtAndReturnDecreasedAmount(targetUserLogin, currentUserLogin, amount);
                 userService.decreaseBalance(currentUserLogin, amount - debtTo.getAmount());
                 userService.increaseBalance(targetUserLogin, amount - debtTo.getAmount());
-                transferredAmount = amount;
+                transferredAmount = amount - debtTo.getAmount();
             } else {
                 debtService.decreaseDebtAndReturnDecreasedAmount(targetUserLogin, currentUserLogin, amount);
             }

@@ -1,24 +1,8 @@
 package com.okabanov;
 
-import com.okabanov.dispatcher.RequestDispatcher;
-import com.okabanov.service.BalanceService;
-import com.okabanov.service.DebtService;
-import com.okabanov.service.UserService;
 import org.junit.jupiter.api.Test;
-import static org.junit.jupiter.api.Assertions.*;
 
-
-public class DispatcherTest {
-
-    private UserService userService = new UserService();
-    private DebtService debtService = new DebtService();
-
-    RequestDispatcher requestDispatcher = new RequestDispatcher(
-            userService,
-            debtService,
-            new BalanceService(debtService, userService)
-    );
-
+public class FullCycleTest extends BaseShellTest {
     @Test
     void checkDemoShellCommands() {
         testDispatchCommand("login Alice", "Hello, Alice!\nYour balance is $0\n");
@@ -39,10 +23,5 @@ public class DispatcherTest {
         testDispatchCommand("login Bob", "Hello, Bob!\nYour balance is $0\nOwed $10 to Alice\n");
         testDispatchCommand("deposit 100", "Transferred $10 to Alice\nYour balance is $90\n");
         testDispatchCommand("logout", "Goodbye, Bob!\n");
-    }
-
-    private void testDispatchCommand(String command, String expected) {
-        String actual = requestDispatcher.dispatchRequest(command);
-        assertEquals(expected, actual);
     }
 }
