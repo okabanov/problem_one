@@ -20,7 +20,7 @@ public class DispatcherTest {
     );
 
     @Test
-    void TestMethod() {
+    void checkDemoShellCommands() {
         testDispatchCommand("login Alice", "Hello, Alice!\nYour balance is $0\n");
         testDispatchCommand("deposit 100", "Your balance is $100\n");
         testDispatchCommand("logout", "Goodbye, Alice!\n");
