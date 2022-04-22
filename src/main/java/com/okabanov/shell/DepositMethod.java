@@ -2,7 +2,6 @@ package com.okabanov.shell;
 
 import com.okabanov.exception.UnauthorizedException;
 import com.okabanov.model.Debt;
-import com.okabanov.model.User;
 import com.okabanov.service.BalanceService;
 import com.okabanov.service.DebtService;
 import com.okabanov.service.UserService;
@@ -44,21 +43,18 @@ public class DepositMethod extends ShellMethod {
         if (currentUserLogin == null) {
             throw new UnauthorizedException();
         }
-        User user = userService.findByLogin(currentUserLogin);
         Debt debt = debtService.findByDebtor(currentUserLogin);
         String transferMessage = "";
-        if (debt == null) {
-            user.increaseBalance(amount);
-        } else if (amount < debt.getAmount()) {
-            debt.decreaseAmount(amount);
-            userService.findByLogin(debt.getBorrower()).increaseBalance(amount);
-            transferMessage = String.format("Transferred $%d to %s\n", amount, debt.getBorrower());
-        } else {
-            debtService.deleteDebtor(currentUserLogin);
-            int extraAmount = amount - debt.getAmount();
-            user.increaseBalance(extraAmount);
-            userService.findByLogin(debt.getBorrower()).increaseBalance(amount - extraAmount);
-            transferMessage = String.format("Transferred $%d to %s\n", amount - extraAmount, debt.getBorrower());
+
+        int remainingAmount = amount;
+        if (debt != null) {
+            int decreasedAmount = debtService.decreaseDebtAndReturnDecreasedAmount(currentUserLogin, debt.getBorrower(), amount);
+            userService.findByLogin(debt.getBorrower()).increaseBalance(decreasedAmount);
+            transferMessage = String.format("Transferred $%d to %s\n", decreasedAmount, debt.getBorrower());
+            remainingAmount = amount - decreasedAmount;
+        }
+        if (remainingAmount > 0) {
+            userService.increaseBalance(currentUserLogin, remainingAmount);
         }
 
         return transferMessage + balanceService.buildBalanceMessage(getCurrentUser());

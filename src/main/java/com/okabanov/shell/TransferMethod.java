@@ -46,39 +46,36 @@ public class TransferMethod extends ShellMethod {
             throw new UnauthorizedException();
         }
 
-        User currentUser = userService.findByLogin(currentUserLogin);
-        User targetUser = userService.findByLogin(targetUserLogin);
+        Debt debtFrom = debtService.findByUsers(currentUserLogin, targetUserLogin);
         Debt debtTo = debtService.findByUsers(targetUserLogin, currentUserLogin);
-        int transferredAmount;
-        if (debtTo != null) {
-            if (debtTo.getAmount() == amount) {
-                transferredAmount = amount;
-                debtService.deleteDebtor(targetUserLogin);
-            } else if (debtTo.getAmount() < amount) {
-                debtService.deleteDebtor(targetUserLogin);
-                currentUser.decreaseBalance(amount - debtTo.getAmount());
-                targetUser.increaseBalance(amount - debtTo.getAmount());
+        int currentUserBalance = userService.findByLogin(currentUserLogin).getBalance();
+
+        int transferredAmount = 0;
+        if (debtFrom != null) { // Current user debtor
+            debtService.increaseDebt(targetUserLogin, currentUserLogin, amount);
+        } else if(debtTo != null) {  // Target user debtor
+            if (debtTo.getAmount() <= amount) {
+                int decreaseAmount = debtService
+                        .decreaseDebtAndReturnDecreasedAmount(currentUserLogin, targetUserLogin, amount);
+                userService.decreaseBalance(currentUserLogin, amount - debtTo.getAmount());
+                userService.increaseBalance(targetUserLogin, amount - debtTo.getAmount());
                 transferredAmount = amount;
             } else {
-                transferredAmount = 0;
-                debtTo.decreaseAmount(amount);
+                debtService.decreaseDebtAndReturnDecreasedAmount(targetUserLogin, currentUserLogin, amount);
             }
-        } else if (currentUser.getBalance() >= amount) {
-            currentUser.decreaseBalance(amount);
-            targetUser.increaseBalance(amount);
-            transferredAmount = amount;
         } else {
-            int unavailableAmount = amount - currentUser.getBalance();
-            int availableAmount = amount - unavailableAmount;
-            Debt debt = debtService.findByUsers(currentUserLogin, targetUserLogin);
-            if (debt != null) {
-                debt.increaseAmount(unavailableAmount);
+            if (currentUserBalance >= amount) {
+                userService.decreaseBalance(currentUserLogin, amount);
+                userService.increaseBalance(targetUserLogin, amount);
+                transferredAmount = amount;
             } else {
-                debtService.createDebt(currentUserLogin, targetUserLogin, unavailableAmount);
+                int unavailableAmount = amount - currentUserBalance;
+                int availableAmount = amount - unavailableAmount;
+                debtService.increaseDebt(currentUserLogin, targetUserLogin, unavailableAmount);
+                userService.decreaseBalance(currentUserLogin, availableAmount);
+                userService.increaseBalance(targetUserLogin, availableAmount);
+                transferredAmount = availableAmount;
             }
-            targetUser.increaseBalance(availableAmount);
-            currentUser.decreaseBalance(availableAmount);
-            transferredAmount = availableAmount;
         }
 
         String transferredMessage = "";

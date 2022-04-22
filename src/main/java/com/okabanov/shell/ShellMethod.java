@@ -16,7 +16,10 @@ abstract public class ShellMethod {
     abstract public String executeMethod(String command, String[] args);
 
     protected String getCurrentUser() {
-        return userState.get(CURRENT_USER_STATE_KEY).toString();
+        Object state = userState.get(CURRENT_USER_STATE_KEY);
+        if (state == null)
+            return null;
+        return state.toString();
     }
 
     protected void setCurrentUser(String userLogin) {

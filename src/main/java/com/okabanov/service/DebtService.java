@@ -29,15 +29,36 @@ public class DebtService {
                 .orElse(null);
     }
 
-    public void deleteDebtor(String debtor) {
+    public void deleteDebt(String debtor, String borrower) {
         Iterator<Debt> itr = debtState.iterator();
         while (itr.hasNext()) {
-            if (itr.next().getDebtor().equals(debtor))
+            Debt next = itr.next();
+            if (next.getDebtor().equals(debtor) && next.getBorrower().equals(borrower))
                 itr.remove();
         }
     }
 
     public void createDebt(String debtor, String borrower, int amount) {
         debtState.add(new Debt(debtor, borrower, amount));
+    }
+
+    public int decreaseDebtAndReturnDecreasedAmount(String debtor, String borrower, int amount) {
+        Debt debt = findByUsers(debtor, borrower);
+        if (debt.getAmount() <= amount ) {
+            deleteDebt(debtor, borrower);
+            return debt.getAmount();
+        } else {
+            debt.decreaseAmount(amount);
+            return amount;
+        }
+    }
+
+    public void increaseDebt(String debtor, String borrower, int amount) {
+        Debt debt = findByUsers(debtor, borrower);
+        if(debt == null) {
+            createDebt(debtor, borrower, amount);
+        } else {
+            debt.increaseAmount(amount);
+        }
     }
 }

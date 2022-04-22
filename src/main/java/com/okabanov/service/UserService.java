@@ -19,4 +19,12 @@ public class UserService {
                 .findAny()
                 .orElse(null);
     }
+
+    public void increaseBalance(String login, int amount) {
+        findByLogin(login).increaseBalance(amount);
+    }
+
+    public void decreaseBalance(String login, int amount) {
+        findByLogin(login).decreaseBalance(amount);
+    }
 }
