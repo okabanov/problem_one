@@ -29,7 +29,7 @@ public class RequestDispatcher {
 
     public String dispatchRequest(String str) {
         try {
-            if (str == null && "exit".equals(str)) {
+            if (str == null || "exit".equals(str)) {
                 System.out.println("\nGoodbye!");
                 System.exit(0);
             }
