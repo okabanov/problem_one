@@ -22,12 +22,17 @@ public class RequestDispatcher {
                 new LoginMethod(userState, userService, balanceService),
                 new LogoutMethod(userState),
                 new DepositMethod(userState, userService, debtService, balanceService),
-                new TransferMethod(userState, userService, debtService, balanceService)
+                new TransferMethod(userState, userService, debtService, balanceService),
+                new WithdrawMethod(userState, userService, balanceService)
         );
     }
 
     public String dispatchRequest(String str) {
         try {
+            if (str == null && "exit".equals(str)) {
+                System.out.println("\nGoodbye!");
+                System.exit(0);
+            }
             String[] s = str.trim().split(" ");
             if (s.length == 1 && s[0].equals(""))
                 throw new ShellMethodNotFound();

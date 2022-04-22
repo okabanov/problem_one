@@ -10,6 +10,8 @@ Result: target/console_atm.jar
 ### Run program
 `java -jar console_atm.jar` or using IDE - just run `com.okabanov.Application.main`
 
+Press `Ctrl D` to exit.
+
 ### Run unit tests
 `mvn tests`
 
