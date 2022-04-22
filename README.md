@@ -11,7 +11,7 @@ Result: target/console_atm.jar
 `java -jar console_atm.jar` or using IDE - just run `com.okabanov.Application.main`
 
 ### Run unit tests
-mvn tests
+`mvn tests`
 
 Solution Analysis
 =================
