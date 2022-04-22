@@ -1,5 +1,8 @@
 package com.okabanov.dispatcher;
 
+import com.okabanov.exception.IncorrectArgumentsCountException;
+import com.okabanov.exception.ShellMethodNotFound;
+import com.okabanov.exception.UnsupportedCommandException;
 import com.okabanov.service.BalanceService;
 import com.okabanov.service.DebtService;
 import com.okabanov.service.UserService;
@@ -14,7 +17,7 @@ public class RequestDispatcher {
     private List<ShellMethod> availableShellMethods;
 
     public RequestDispatcher(UserService userService, DebtService debtService, BalanceService balanceService) {
-        // We can collect this list by reflection
+        // We can collect this list using reflection and DI
         availableShellMethods = Arrays.asList(
                 new LoginMethod(userState, userService, balanceService),
                 new LogoutMethod(userState),
@@ -27,19 +30,19 @@ public class RequestDispatcher {
         try {
             String[] s = str.trim().split(" ");
             if (s.length == 1 && s[0].equals(""))
-                throw new IllegalArgumentException("Use one of available commands");
+                throw new ShellMethodNotFound();
 
             ShellMethod shellMethod = availableShellMethods.stream()
                     .filter(sm -> sm.getMethodName().equals(s[0]))
                     .findAny()
                     .orElse(null);
             if (shellMethod == null)
-                throw new IllegalArgumentException("Unsupported command");
+                throw new UnsupportedCommandException();
             if (s.length - 1 != shellMethod.getCountArguments())
-                throw new IllegalArgumentException("Incorrect arguments count");
+                throw new IncorrectArgumentsCountException(shellMethod.getCountArguments(), s.length - 1);
 
             return shellMethod.executeMethod(s[0], Arrays.copyOfRange(s, 1, s.length));
-        } catch (IllegalArgumentException e) {
+        } catch (RuntimeException e) {
             return e.getMessage();
         }
     }
