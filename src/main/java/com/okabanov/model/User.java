@@ -1,22 +1,12 @@
 package com.okabanov.model;
 
 public class User {
-    private int id;
     private String login;
     private int balance;
 
-    public User(int id, String login, int balance) {
-        this.id = id;
+    public User(String login, int balance) {
         this.login = login;
         this.balance = balance;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
     }
 
     public String getLogin() {
@@ -33,6 +23,11 @@ public class User {
 
     public int increaseBalance(int increaseVal) {
         balance = balance + increaseVal;
+        return balance;
+    }
+
+    public int decreaseBalance(int decreaseVal) {
+        balance = balance - decreaseVal;
         return balance;
     }
 

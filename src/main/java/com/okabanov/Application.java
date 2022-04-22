@@ -1,20 +1,26 @@
 package com.okabanov;
 
-import com.okabanov.parser.Command;
-import com.okabanov.parser.CommandParser;
-import com.okabanov.controller.BankController;
+import com.okabanov.dispatcher.RequestDispatcher;
+import com.okabanov.service.BalanceService;
+import com.okabanov.service.DebtService;
+import com.okabanov.service.UserService;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
 public class Application {
+    private UserService userService = new UserService();
+    private DebtService debtService = new DebtService();
 
-    CommandParser parser = new CommandParser();
+    // DI instead of Spring beans
+    private RequestDispatcher requestDispatcher = new RequestDispatcher(
+            userService,
+            debtService,
+            new BalanceService(debtService, userService)
+    );
 
-    BankController bankService = new BankController();
-
-    BufferedReader consoleReader = new BufferedReader(new InputStreamReader(System.in));
+    private BufferedReader consoleReader = new BufferedReader(new InputStreamReader(System.in));
 
     public static void main(String[] args) throws IOException {
         new Application().run();
@@ -23,34 +29,13 @@ public class Application {
     public void run() throws IOException {
         while (true) {
             String request = readConsoleCommand("$ ");
-            dispatchRequest(request);
+            String result = requestDispatcher.dispatchRequest(request);
+            System.out.println(result);
         }
     }
 
-    private void dispatchRequest(String str) {
-        try {
-            Command command = parser.parse(str);
-            switch (command.getAction()) {
-                case LOGIN:
-                    bankService.login(command.getArguments()[0]);
-                    break;
-                case DEPOSIT:
-                    bankService.deposit(command.getArguments()[0]);
-                    break;
-                case WITHDRAW:
-                    break;
-                case TRANSFER:
-                    break;
-                case LOGOUT:
-                    break;
-            }
-        } catch (IllegalArgumentException e) {
-            System.out.println(e.getMessage());
-        }
-    }
-
-    private String readConsoleCommand(String format, Object... args) throws IOException {
-        System.out.print(String.format(format, args));
+    private String readConsoleCommand(String msg) throws IOException {
+        System.out.print(msg);
         return consoleReader.readLine();
     }
 

@@ -7,26 +7,16 @@ import java.util.ArrayList;
 public class UserService {
     private ArrayList<User> usersState = new ArrayList<User>();
 
-    public UserService() {
-        initTestUsers();
+    public User createUser(String login) {
+        User newUser = new User(login, 0);
+        usersState.add(newUser);
+        return newUser;
     }
 
     public User findByLogin(String login) {
         return usersState.stream()
-                .filter(customer -> login.equals(customer.getLogin()))
+                .filter(user -> login.equals(user.getLogin()))
                 .findAny()
                 .orElse(null);
-    }
-
-    public User changeBalance(String login) {
-        return usersState.stream()
-                .filter(customer -> login.equals(customer.getLogin()))
-                .findAny()
-                .orElse(null);
-    }
-
-    private void initTestUsers() {
-        usersState.add(new User(1, "Alice", 0));
-        usersState.add(new User(2, "Bob", 0));
     }
 }
