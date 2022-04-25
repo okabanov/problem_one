@@ -42,14 +42,12 @@ public class DebtService {
         debtState.add(new Debt(debtor, borrower, amount));
     }
 
-    public int decreaseDebtAndReturnDecreasedAmount(String debtor, String borrower, int amount) {
+    public void decreaseDebt(String debtor, String borrower, int amount) {
         Debt debt = findByUsers(debtor, borrower);
         if (debt.getAmount() <= amount) {
             deleteDebt(debtor, borrower);
-            return debt.getAmount();
         } else {
             debt.decreaseAmount(amount);
-            return amount;
         }
     }
 

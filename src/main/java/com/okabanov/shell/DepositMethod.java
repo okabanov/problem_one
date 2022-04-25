@@ -48,7 +48,8 @@ public class DepositMethod extends ShellMethod {
 
         int remainingAmount = amount;
         if (debt != null) {
-            int decreasedAmount = debtService.decreaseDebtAndReturnDecreasedAmount(currentUserLogin, debt.getBorrower(), amount);
+            debtService.decreaseDebt(currentUserLogin, debt.getBorrower(), amount);
+            int decreasedAmount = Math.min(amount, debt.getAmount());
             userService.findByLogin(debt.getBorrower()).increaseBalance(decreasedAmount);
             transferMessage = String.format("Transferred $%d to %s\n", decreasedAmount, debt.getBorrower());
             remainingAmount = amount - decreasedAmount;
