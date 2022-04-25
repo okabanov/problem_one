@@ -27,16 +27,4 @@ abstract public class ShellMethod {
     protected void setCurrentUser(String userLogin) {
         userState.put(CURRENT_USER_STATE_KEY, userLogin);
     }
-
-    protected String buildBalanceMessage(BalanceDto balanceDto) {
-        StringBuilder stringBuilder = new StringBuilder();
-        stringBuilder.append(String.format("Your balance is $%d\n", balanceDto.getBalance()));
-        DebtDto owedTo = balanceDto.getOwedTo();
-        DebtDto borrower = balanceDto.getOwedFrom();
-        if (owedTo != null)
-            stringBuilder.append(String.format("Owed $%d to %s\n", owedTo.getAmount(), owedTo.getUser()));
-        if (borrower != null)
-            stringBuilder.append(String.format("Owed $%d from %s\n", borrower.getAmount(), borrower.getUser()));
-        return stringBuilder.toString();
-    }
 }

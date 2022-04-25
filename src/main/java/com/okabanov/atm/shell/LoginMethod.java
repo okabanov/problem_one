@@ -1,5 +1,6 @@
 package com.okabanov.atm.shell;
 
+import com.okabanov.atm.i18n.I18n;
 import com.okabanov.server.ServerRPC;
 
 import java.util.HashMap;
@@ -27,6 +28,6 @@ public class LoginMethod extends ShellMethod {
         String login = args[0];
         String token = serverRPC.loginUser(login);
         setCurrentUser(token);
-        return String.format("Hello, %s!\n%s", login, buildBalanceMessage(serverRPC.balance(token)));
+        return I18n.welcomeMessage(login) + "\n" + I18n.balanceMessage(serverRPC.balance(token));
     }
 }

@@ -1,6 +1,7 @@
 package com.okabanov.atm.shell;
 
 import com.okabanov.atm.exception.UnauthorizedException;
+import com.okabanov.atm.i18n.I18n;
 import com.okabanov.dto.TransferDto;
 import com.okabanov.server.ServerRPC;
 
@@ -36,11 +37,8 @@ public class DepositMethod extends ShellMethod {
         TransferDto transferDto = serverRPC.deposit(currentUserLogin, amount);
         String transferMessage = "";
         if (transferDto != null) {
-            transferMessage = String.format("Transferred $%d to %s\n",
-                    transferDto.getTransferredAmount(),
-                    transferDto.getTransferTo()
-            );
+            transferMessage = I18n.transferMessage(transferDto);
         }
-        return transferMessage + buildBalanceMessage(serverRPC.balance(currentUserLogin));
+        return transferMessage + I18n.balanceMessage(serverRPC.balance(currentUserLogin));
     }
 }

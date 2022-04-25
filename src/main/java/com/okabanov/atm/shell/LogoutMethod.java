@@ -1,6 +1,7 @@
 package com.okabanov.atm.shell;
 
 import com.okabanov.atm.exception.UnauthorizedException;
+import com.okabanov.atm.i18n.I18n;
 
 import java.util.HashMap;
 
@@ -25,6 +26,6 @@ public class LogoutMethod extends ShellMethod {
         if (getCurrentUser() == null)
             throw new UnauthorizedException();
         setCurrentUser(null);
-        return String.format("Goodbye, %s!\n", userLogin);
+        return I18n.goodbyeMessage(userLogin);
     }
 }

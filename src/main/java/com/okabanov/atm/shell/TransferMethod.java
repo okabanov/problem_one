@@ -1,6 +1,7 @@
 package com.okabanov.atm.shell;
 
 import com.okabanov.atm.exception.UnauthorizedException;
+import com.okabanov.atm.i18n.I18n;
 import com.okabanov.server.ServerRPC;
 
 import java.util.HashMap;
@@ -36,8 +37,8 @@ public class TransferMethod extends ShellMethod {
         int transferredAmount = serverRPC.transfer(currentUserLogin, targetUserLogin, amount);
         String transferredMessage = "";
         if (transferredAmount > 0) {
-            transferredMessage += String.format("Transferred $%d to %s\n", transferredAmount, targetUserLogin);
+            transferredMessage += I18n.transferMessage(targetUserLogin, transferredAmount) + "\n";
         }
-        return transferredMessage + buildBalanceMessage(serverRPC.balance(currentUserLogin));
+        return transferredMessage + I18n.balanceMessage(serverRPC.balance(currentUserLogin));
     }
 }

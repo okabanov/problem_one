@@ -1,7 +1,9 @@
 package com.okabanov.atm.exception;
 
+import com.okabanov.atm.i18n.I18n;
+
 public class UnauthorizedException extends RuntimeException {
     public UnauthorizedException() {
-        super("User not authorized");
+        super(I18n.useNotAuthorizedMessage());
     }
 }
