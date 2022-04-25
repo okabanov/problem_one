@@ -16,7 +16,6 @@ public class Application {
     private final DebtService debtService = new DebtService();
 
     // It is creations should be in Server App
-
     private final ServerRPC serverRPC = new ServerRPC(
             userService,
             debtService,
