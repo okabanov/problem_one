@@ -5,9 +5,9 @@ import java.util.HashMap;
 abstract public class ShellMethod {
     static final String CURRENT_USER_STATE_KEY = "currentUser";
 
-    private HashMap<String, Object> userState;
+    private HashMap<String, String> userState;
 
-    public ShellMethod(HashMap<String, Object> userState) {
+    public ShellMethod(HashMap<String, String> userState) {
         this.userState = userState;
     }
 
@@ -16,13 +16,10 @@ abstract public class ShellMethod {
     abstract public String executeMethod(String command, String[] args);
 
     protected String getCurrentUser() {
-        Object state = userState.get(CURRENT_USER_STATE_KEY);
-        if (state == null)
-            return null;
-        return state.toString();
+        return userState.get(CURRENT_USER_STATE_KEY);
     }
 
     protected void setCurrentUser(String userLogin) {
-        userState.put(CURRENT_USER_STATE_KEY, userLogin);;
+        userState.put(CURRENT_USER_STATE_KEY, userLogin);
     }
 }

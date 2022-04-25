@@ -1,7 +1,6 @@
 package com.okabanov.dispatcher;
 
 import com.okabanov.exception.IncorrectArgumentsCountException;
-import com.okabanov.exception.ShellMethodNotFound;
 import com.okabanov.exception.UnsupportedCommandException;
 import com.okabanov.service.BalanceService;
 import com.okabanov.service.DebtService;
@@ -13,7 +12,7 @@ import java.util.HashMap;
 import java.util.List;
 
 public class RequestDispatcher {
-    private HashMap<String, Object> userState = new HashMap<>();
+    private HashMap<String, String> userState = new HashMap<>();
     private List<ShellMethod> availableShellMethods;
 
     public RequestDispatcher(UserService userService, DebtService debtService, BalanceService balanceService) {
@@ -27,26 +26,27 @@ public class RequestDispatcher {
         );
     }
 
-    public String dispatchRequest(String str) {
+    public String dispatchRequest(String inputLine) {
         try {
-            if (str == null || "exit".equals(str)) {
+            if (inputLine == null || "exit".equals(inputLine)) {
                 System.out.println("\nGoodbye!");
                 System.exit(0);
             }
-            String[] s = str.trim().split(" ");
-            if (s.length == 1 && s[0].equals(""))
-                throw new ShellMethodNotFound();
+            if (inputLine.isBlank())
+                return "";
+
+            String[] commandParts = inputLine.trim().split(" ");
 
             ShellMethod shellMethod = availableShellMethods.stream()
-                    .filter(sm -> sm.getMethodName().equals(s[0]))
+                    .filter(sm -> sm.getMethodName().equals(commandParts[0]))
                     .findFirst()
                     .orElse(null);
             if (shellMethod == null)
                 throw new UnsupportedCommandException();
-            if (s.length - 1 != shellMethod.getCountArguments())
-                throw new IncorrectArgumentsCountException(shellMethod.getCountArguments(), s.length - 1);
+            if (commandParts.length - 1 != shellMethod.getCountArguments())
+                throw new IncorrectArgumentsCountException(shellMethod.getCountArguments(), commandParts.length - 1);
 
-            return shellMethod.executeMethod(s[0], Arrays.copyOfRange(s, 1, s.length));
+            return shellMethod.executeMethod(commandParts[0], Arrays.copyOfRange(commandParts, 1, commandParts.length));
         } catch (RuntimeException e) {
             return e.getMessage();
         }

@@ -10,7 +10,7 @@ public class LoginMethod extends ShellMethod {
     private UserService userService;
     private BalanceService balanceService;
 
-    public LoginMethod(HashMap<String, Object> userState, UserService userService, BalanceService balanceService) {
+    public LoginMethod(HashMap<String, String> userState, UserService userService, BalanceService balanceService) {
         super(userState);
         this.userService = userService;
         this.balanceService = balanceService;

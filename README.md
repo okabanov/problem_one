@@ -18,7 +18,7 @@ Press `Ctrl D` to exit.
 Solution Analysis
 =================
 ### Libraries
-The project **doesn't use any foreign libraries for runtime**. But will be good idea to use:
+The project **doesn't use any third party libraries for runtime**. But will be good idea to use:
 * spring-shell - for CLI autocomplete, suggestions and validations
 * spring - for DI, if the application will have huge amount of services
 

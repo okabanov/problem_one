@@ -15,7 +15,7 @@ public class TransferMethod extends ShellMethod {
     private BalanceService balanceService;
 
     public TransferMethod(
-            HashMap<String, Object> userState,
+            HashMap<String, String> userState,
             UserService userService,
             DebtService debtService,
             BalanceService balanceService

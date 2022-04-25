@@ -14,7 +14,7 @@ public class WithdrawMethod extends ShellMethod {
     private BalanceService balanceService;
 
     public WithdrawMethod(
-            HashMap<String, Object> userState,
+            HashMap<String, String> userState,
             UserService userService,
             BalanceService balanceService
     ) {

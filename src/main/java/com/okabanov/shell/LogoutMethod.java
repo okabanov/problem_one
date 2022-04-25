@@ -5,7 +5,7 @@ import com.okabanov.exception.UnauthorizedException;
 import java.util.HashMap;
 
 public class LogoutMethod extends ShellMethod {
-    public LogoutMethod(HashMap<String, Object> userState) {
+    public LogoutMethod(HashMap<String, String> userState) {
         super(userState);
     }
 

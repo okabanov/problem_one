@@ -14,7 +14,7 @@ public class DepositMethod extends ShellMethod {
     private BalanceService balanceService;
 
     public DepositMethod(
-            HashMap<String, Object> userState,
+            HashMap<String, String> userState,
             UserService userService,
             DebtService debtService,
             BalanceService balanceService
