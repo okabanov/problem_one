@@ -1,6 +1,6 @@
-package com.okabanov.shell;
+package com.okabanov.atm.shell;
 
-import com.okabanov.exception.UnauthorizedException;
+import com.okabanov.atm.exception.UnauthorizedException;
 
 import java.util.HashMap;
 

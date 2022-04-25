@@ -1,4 +1,4 @@
-package com.okabanov.exception;
+package com.okabanov.atm.exception;
 
 public class IncorrectArgumentsCountException extends RuntimeException {
     public IncorrectArgumentsCountException(int expected, int found) {

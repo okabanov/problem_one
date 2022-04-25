@@ -1,4 +1,4 @@
-package com.okabanov.model;
+package com.okabanov.server.model;
 
 public class Debt {
     private final String debtor;

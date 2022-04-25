@@ -1,9 +1,10 @@
 package com.okabanov;
 
-import com.okabanov.dispatcher.RequestDispatcher;
-import com.okabanov.service.BalanceService;
-import com.okabanov.service.DebtService;
-import com.okabanov.service.UserService;
+import com.okabanov.atm.dispatcher.RequestDispatcher;
+import com.okabanov.server.ServerRPC;
+import com.okabanov.server.service.BalanceService;
+import com.okabanov.server.service.DebtService;
+import com.okabanov.server.service.UserService;
 import org.junit.jupiter.api.BeforeEach;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -26,12 +27,18 @@ public class BaseShellTest {
     }
 
     private RequestDispatcher initDispatcher() {
+        // DI instead of it
         UserService userService = new UserService();
         DebtService debtService = new DebtService();
-        return new RequestDispatcher(
+
+        // It is creations should be in Server App
+
+        ServerRPC serverRPC = new ServerRPC(
                 userService,
                 debtService,
                 new BalanceService(debtService, userService)
         );
+
+        return new RequestDispatcher(serverRPC);
     }
 }

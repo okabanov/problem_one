@@ -1,4 +1,4 @@
-package com.okabanov.exception;
+package com.okabanov.atm.exception;
 
 public class UnsupportedCommandException extends RuntimeException {
     public UnsupportedCommandException() {

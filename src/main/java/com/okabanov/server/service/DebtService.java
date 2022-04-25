@@ -1,6 +1,6 @@
-package com.okabanov.service;
+package com.okabanov.server.service;
 
-import com.okabanov.model.Debt;
+import com.okabanov.server.model.Debt;
 
 import java.util.ArrayList;
 import java.util.Iterator;

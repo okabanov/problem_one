@@ -1,24 +1,29 @@
-package com.okabanov;
+package com.okabanov.atm;
 
-import com.okabanov.dispatcher.RequestDispatcher;
-import com.okabanov.service.BalanceService;
-import com.okabanov.service.DebtService;
-import com.okabanov.service.UserService;
+import com.okabanov.atm.dispatcher.RequestDispatcher;
+import com.okabanov.server.ServerRPC;
+import com.okabanov.server.service.BalanceService;
+import com.okabanov.server.service.DebtService;
+import com.okabanov.server.service.UserService;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
 public class Application {
+    // DI instead of it
     private final UserService userService = new UserService();
     private final DebtService debtService = new DebtService();
 
-    // DI instead of Spring beans
-    private final RequestDispatcher requestDispatcher = new RequestDispatcher(
+    // It is creations should be in Server App
+
+    private final ServerRPC serverRPC = new ServerRPC(
             userService,
             debtService,
             new BalanceService(debtService, userService)
     );
+
+    private final RequestDispatcher requestDispatcher = new RequestDispatcher(serverRPC);
 
     private final BufferedReader consoleReader = new BufferedReader(new InputStreamReader(System.in));
 
