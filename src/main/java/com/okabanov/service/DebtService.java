@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 
 public class DebtService {
-    private ArrayList<Debt> debtState = new ArrayList<Debt>();
+    private final ArrayList<Debt> debtState = new ArrayList<Debt>();
 
     public Debt findByUsers(String debtor, String borrower) {
         return debtState.stream()
@@ -44,7 +44,7 @@ public class DebtService {
 
     public int decreaseDebtAndReturnDecreasedAmount(String debtor, String borrower, int amount) {
         Debt debt = findByUsers(debtor, borrower);
-        if (debt.getAmount() <= amount ) {
+        if (debt.getAmount() <= amount) {
             deleteDebt(debtor, borrower);
             return debt.getAmount();
         } else {
@@ -55,7 +55,7 @@ public class DebtService {
 
     public void increaseDebt(String debtor, String borrower, int amount) {
         Debt debt = findByUsers(debtor, borrower);
-        if(debt == null) {
+        if (debt == null) {
             createDebt(debtor, borrower, amount);
         } else {
             debt.increaseAmount(amount);

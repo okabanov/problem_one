@@ -1,14 +1,13 @@
 package com.okabanov.shell;
 
-import com.okabanov.model.User;
 import com.okabanov.service.BalanceService;
 import com.okabanov.service.UserService;
 
 import java.util.HashMap;
 
 public class LoginMethod extends ShellMethod {
-    private UserService userService;
-    private BalanceService balanceService;
+    private final UserService userService;
+    private final BalanceService balanceService;
 
     public LoginMethod(HashMap<String, String> userState, UserService userService, BalanceService balanceService) {
         super(userState);

@@ -4,8 +4,8 @@ import com.okabanov.model.Debt;
 import com.okabanov.model.User;
 
 public class BalanceService {
-    private DebtService debtService;
-    private UserService userService;
+    private final DebtService debtService;
+    private final UserService userService;
 
     public BalanceService(DebtService debtService, UserService userService) {
         this.debtService = debtService;

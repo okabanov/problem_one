@@ -21,6 +21,10 @@ public class User {
         return balance;
     }
 
+    public void setBalance(int balance) {
+        this.balance = balance;
+    }
+
     public int increaseBalance(int increaseVal) {
         balance = balance + increaseVal;
         return balance;
@@ -29,9 +33,5 @@ public class User {
     public int decreaseBalance(int decreaseVal) {
         balance = balance - decreaseVal;
         return balance;
-    }
-
-    public void setBalance(int balance) {
-        this.balance = balance;
     }
 }

@@ -2,7 +2,6 @@ package com.okabanov.shell;
 
 import com.okabanov.exception.UnauthorizedException;
 import com.okabanov.model.Debt;
-import com.okabanov.model.User;
 import com.okabanov.service.BalanceService;
 import com.okabanov.service.DebtService;
 import com.okabanov.service.UserService;
@@ -10,9 +9,9 @@ import com.okabanov.service.UserService;
 import java.util.HashMap;
 
 public class TransferMethod extends ShellMethod {
-    private UserService userService;
-    private DebtService debtService;
-    private BalanceService balanceService;
+    private final UserService userService;
+    private final DebtService debtService;
+    private final BalanceService balanceService;
 
     public TransferMethod(
             HashMap<String, String> userState,
@@ -53,7 +52,7 @@ public class TransferMethod extends ShellMethod {
         int transferredAmount = 0;
         if (debtFrom != null) { // Current user debtor
             debtService.increaseDebt(currentUserLogin, targetUserLogin, amount);
-        } else if(debtTo != null) {  // Target user debtor
+        } else if (debtTo != null) {  // Target user debtor
             if (debtTo.getAmount() <= amount) {
                 debtService.decreaseDebtAndReturnDecreasedAmount(targetUserLogin, currentUserLogin, amount);
                 userService.decreaseBalance(currentUserLogin, amount - debtTo.getAmount());

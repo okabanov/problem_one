@@ -9,9 +9,9 @@ import com.okabanov.service.UserService;
 import java.util.HashMap;
 
 public class DepositMethod extends ShellMethod {
-    private UserService userService;
-    private DebtService debtService;
-    private BalanceService balanceService;
+    private final UserService userService;
+    private final DebtService debtService;
+    private final BalanceService balanceService;
 
     public DepositMethod(
             HashMap<String, String> userState,

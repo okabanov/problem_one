@@ -1,17 +1,14 @@
 package com.okabanov.shell;
 
 import com.okabanov.exception.NotEnoughMoney;
-import com.okabanov.exception.UnauthorizedException;
-import com.okabanov.model.Debt;
 import com.okabanov.service.BalanceService;
-import com.okabanov.service.DebtService;
 import com.okabanov.service.UserService;
 
 import java.util.HashMap;
 
 public class WithdrawMethod extends ShellMethod {
-    private UserService userService;
-    private BalanceService balanceService;
+    private final UserService userService;
+    private final BalanceService balanceService;
 
     public WithdrawMethod(
             HashMap<String, String> userState,

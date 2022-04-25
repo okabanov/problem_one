@@ -12,8 +12,8 @@ import java.util.HashMap;
 import java.util.List;
 
 public class RequestDispatcher {
-    private HashMap<String, String> userState = new HashMap<>();
-    private List<ShellMethod> availableShellMethods;
+    private final HashMap<String, String> userState = new HashMap<>();
+    private final List<ShellMethod> availableShellMethods;
 
     public RequestDispatcher(UserService userService, DebtService debtService, BalanceService balanceService) {
         // We can collect this list using reflection and DI

@@ -1,8 +1,8 @@
 package com.okabanov.model;
 
 public class Debt {
-    private String debtor;
-    private String borrower;
+    private final String debtor;
+    private final String borrower;
     private int amount;
 
     public Debt(String debtor, String borrower, int amount) {
@@ -23,15 +23,15 @@ public class Debt {
         return amount;
     }
 
+    public void setAmount(int amount) {
+        this.amount = amount;
+    }
+
     public void increaseAmount(int amount) {
         this.amount += amount;
     }
 
     public void decreaseAmount(int amount) {
         this.amount -= amount;
-    }
-
-    public void setAmount(int amount) {
-        this.amount = amount;
     }
 }
