@@ -18,7 +18,7 @@ Press `Ctrl D` to exit.
 Solution Analysis
 =================
 ### Libraries
-Project **doesn't use any foreign libraries for runtime**. But will be good idea to use:
+The project **doesn't use any foreign libraries for runtime**. But will be good idea to use:
 * spring-shell - for CLI autocomplete, suggestions and validations
 * spring - for DI, if the application will have huge amount of services
 
@@ -27,4 +27,4 @@ Project **doesn't use any foreign libraries for runtime**. But will be good idea
 * The `deposit` command should select the target account if there are two or more debts
 * The `login` command should also perform authentication (with password and storing SESSION_ID)
 * Services must send CRUD operations to the bank server
-* Application must provide a unique ID for each request to avoid repeating the request over the network (mobile operators amy repeat the full request)
+* The application must provide a unique ID for each request to avoid repeating the request over the network (mobile operators may repeat the full request)

@@ -39,7 +39,7 @@ public class RequestDispatcher {
 
             ShellMethod shellMethod = availableShellMethods.stream()
                     .filter(sm -> sm.getMethodName().equals(s[0]))
-                    .findAny()
+                    .findFirst()
                     .orElse(null);
             if (shellMethod == null)
                 throw new UnsupportedCommandException();
